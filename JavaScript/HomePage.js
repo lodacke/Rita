@@ -1,8 +1,8 @@
 "use strict";
-async function RenderHomePage() {
+
+export async function RenderHomePage() {
 
     swapStyleSheet("css/landingPage.css");
-    let wrapper = document.querySelector("#wrapper");
 
     BasicLayout();
 
@@ -19,11 +19,7 @@ async function RenderHomePage() {
     let response = await fetch("api/data/comics.json");
     let resource = await response.json();
 
-    console.log(resource);
-    // document.querySelector("#wrapper").textContent = "Hej"
     let boxCards = document.querySelector("#cards");
-    // boxCards.append(card);
-
 
     resource.forEach(part => {
         let card = document.createElement("div");
@@ -43,17 +39,4 @@ async function RenderHomePage() {
         card.querySelector("#pic").style.backgroundImage = "url(../images/unnamed.png)";
         boxCards.append(card);
     });
-
-
-
-}
-
-
-// function RenderCommunity(params) {
-//     console.log("community");
-// }
-
-
-function RenderTrending(params) {
-    console.log("trending");
 }

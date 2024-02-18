@@ -1,20 +1,5 @@
 [
     {
-        "email": "erica@hej",
-        "username": "erica",
-        "password": "erica"
-    },
-    {
-        "email": "erica.lundstrom@hotmail.com",
-        "username": "berit",
-        "password": "berit"
-    },
-    {
-        "email": "ballong@hej.se",
-        "username": "ballong",
-        "password": "hejhej"
-    },
-    {
         "email": "fwefwf@fergre",
         "username": "fefw",
         "password": "fefw"
@@ -22,6 +7,6 @@
     {
         "email": "lo.dacke@mail.com",
         "username": "Usern",
-        "password": "usern"
+        "password": "Usern"
     }
 ]

@@ -1,22 +1,9 @@
-"use strict";
-async function fetching(URL, method, body) {
-    console.log(method);
-    let response = await fetch(URL, {
-        method: method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-    });
-
-    return response;
-}
+import { RenderCommunity } from "../JavaScript/community";
+import { RenderHomePage } from "../JavaScript/HomePage";
+import { RenderProfile } from "../JavaScript/profile";
 
 
-function swapStyleSheet(styleSheet) {
-    document.getElementById("styles").setAttribute("href", styleSheet);
-}
-
-
-function BasicLayout() {
+export function BasicLayout() {
     document.querySelector("body").innerHTML = `
         <header>
             <p> Rita </p>
@@ -78,5 +65,3 @@ function BasicLayout() {
         RenderTrending();
     });
 }
-
-

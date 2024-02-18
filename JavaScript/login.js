@@ -1,41 +1,37 @@
 "use strict";
+import { wrapper } from "../utilities/variables.js";
+import { swapStyleSheet } from "../utilities/swapCSS.js";
+import { RenderRegisterPage } from "./register.js";
+import { RenderHomePage } from "./HomePage.js";
 
-function RenderLoginPage() {
-    console.log("login");
+export function RenderLoginPage() {
+
+    swapStyleSheet("css/register.css");
+
     wrapper.innerHTML = `
-
-    <div id="box">
-    <h1> Rita </h1>
-
-        <div id="LoginOrReg">
+    <h1> RITA </h1>
 
         <form>
-                <div id="login"> 
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required minlength="4" maxlength="8" size="10" />
-                    <div class="underline"></div>
-                </div>
+            <div id="login"> 
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required minlength="4" maxlength="8" size="10" />
+                <div class="underline"></div>
+            </div>
 
-                <div id="reg">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required minlength="4" maxlength="8" size="10" />
-                    <div class="underline"></div>
-                    <p>Forgot password?</p>
-                </div>
+            <div id="reg">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required minlength="4" maxlength="8" size="10" />
+                <div class="underline"></div>
+                <p>Forgot password?</p>
+            </div>
 
-                <button> Sign In </button>
-                <p id=message></p>
+            <button> SIGN IN </button>
+            <p id=message></p>
 
-                <h3>New to this? <u> Create an account <u></h3>
-
+            <h3>New to this? <u> Create an account <u></h3>
         </form>
-        </div>
 
-     </div>
 `;
-    wrapper.querySelector("#box").style.backgroundImage = "url(/images/paper.png)";
-
-    //     // go to register
     document.querySelector("h3").addEventListener("click", () => {
         RenderRegisterPage();
     })
@@ -48,37 +44,34 @@ function RenderLoginPage() {
         event.preventDefault();
         let errorMessage = wrapper.querySelector("#message");
 
-        let body = {
+        let userDetail = {
             username: username.value,
             password: password.value,
         };
-        console.log(body);
 
-        // trying to log in...
         try {
-            let response = await fetching("api/login.php", "POST", body);
+            let response = await fetch("/Rita/api/login.php", {
+                method: "POST",
+                body: JSON.stringify({
+                    username: username.value,
+                    password: password.value,
+                })
+            });
             let data = await response.json();
 
-            data.password = password.value; // add password
-
             if (!response.ok) {
-                errorMessage.innerHTML = `<span>${data.message}</span>.`; // error message
-                console.log(data.message);
+                errorMessage.innerHTML = `<span>${data.message}</span>.`; 
+
             } else {
-                // add to local storage
+                
                 window.localStorage.setItem("user", JSON.stringify(data));
 
                 let user = data;
-                console.log(user);
-
-                // logged in! (adding function later)
-                // renderCategoriesPage()
-                console.log("logged in");
 
                 RenderHomePage();
 
             }
-        } catch (error) { // if something went wrong
+        } catch (error) { 
             errorMessage.textContent = `Error: ${error.message}`;
             console.log(error.message);
         }

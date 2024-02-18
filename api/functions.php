@@ -1,4 +1,5 @@
 <?php
+
 function send_JSON ($data, $code = 200){
     header("Content-Type: application/json");
     http_response_code($code);
@@ -6,15 +7,15 @@ function send_JSON ($data, $code = 200){
     exit();
 }
 
-function tooShort ($input, $value){ // cant be too short
+function tooShort ($input, $value){ 
     if(strlen($input) < 3){
         send_JSON(["message"=>"The $value needs to be 3 characters or more"], 406); 
     }
 }
 
-function incorrectChar ($splitWord, $value){ // characters outside the english alphabet is not allowed
+function incorrectChar ($splitWord, $value){ 
     $allowed = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z', 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-    if($value == "email"){ // email is allowed to have @ and .
+    if($value == "email"){ 
         $allowed[] = '@';
         $allowed[] = '.';}
 
@@ -25,24 +26,22 @@ function incorrectChar ($splitWord, $value){ // characters outside the english a
     }
 }
 
- // universal for most "change" settings
 function change ($input, $users, $filename, $field, $secondaryField = "password"){
-    // field decides what will be changed
+
     $new = "new_";
     $new .= $field;
 
-    if($input[$field] == $input[$new]){ // cant be the same
+    if($input[$field] == $input[$new]){ 
         send_JSON(["message"=>"New $field cannot be the same as old $field"], 406); 
     }
 
     foreach ($users as $index => $user) {
         if($user[$field] == $input[$field] && $user[$secondaryField] == $input[$secondaryField]){
-            ////////////// time for checks...
-            // first, check its not already taken
 
-            if ($field !== "password"){ // password does not have to be "taken"
+
+            if ($field !== "password"){ 
                 $array = $users; 
-                $copiedArray = $array; // array needs to be copied so original array isn't damaged
+                $copiedArray = $array; 
                 array_splice($copiedArray, $index, 1);
                 foreach($copiedArray as $owned){
                     if($owned[$field] == $input[$new]){
@@ -51,28 +50,28 @@ function change ($input, $users, $filename, $field, $secondaryField = "password"
                 }
             }
 
-            if ($field == "password"){ // old password needs to be correct
+            if ($field == "password"){ 
                 if ($input[$field] != $user["password"]) {
                     send_JSON(["message"=>"Incorrect password, please try again"], 400); 
                 }
             }
 
-            tooShort($input[$new], $field); // make sure its not too short
+            tooShort($input[$new], $field); 
 
-            $split = str_split($input[$new]); // or has illegal characters
+            $split = str_split($input[$new]); 
             incorrectChar($split, $field);
 
-            if($field == "email"){ // email needs to have @ and .
+            if($field == "email"){ 
                 if(!preg_match("/(@)(.)/", $input[$new])){
                     send_JSON(["message"=>"Please enter a valid email"], 406); 
                 }
             }
-            ////////////// checks are done, can now be changed!
+
 
             $users[$index][$field] = $input[$new];
             file_put_contents($filename, json_encode($users, JSON_PRETTY_PRINT));
 
-            // change in other databases too
+            
             if($field == "username"){
                 $favorites = json_decode(file_get_contents("data/favourites.json"), true);
                 $comments = json_decode(file_get_contents("data/comments.json"), true);
@@ -97,6 +96,7 @@ function change ($input, $users, $filename, $field, $secondaryField = "password"
             send_JSON(["message"=>"Successfully updated $field!"]);
         }
     }
-    send_JSON(["message"=>"Problems with finding user"], 404); // if user cant be found / matched
+    send_JSON(["message"=>"Problems with finding user"], 404); 
 }
+
 ?>

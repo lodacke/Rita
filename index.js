@@ -1,15 +1,19 @@
 "use strict";
 
-RenderLoginPage();
+import { wrapper } from "./utilities/variables.js";
+import { RenderLoginPage } from "./JavaScript/login.js";
+import { RenderRegisterPage } from "./JavaScript/register.js";
+import { RenderHomePage } from "./JavaScript/HomePage.js";
 
 if (localStorage.getItem("state")) {
     RenderHomePage();
+} else {
+    RenderLoginPage();
 }
 
-function renderFirstPage() {
+export function renderFirstPage() {
 
     wrapper.innerHTML = `
-
         <div id="box">
         <h1> Rita </h1>
 
@@ -33,24 +37,18 @@ function renderFirstPage() {
                     <p id=message></p>
 
                     <h3>New to this? <u> Create an account <u></h3>
-
             </form>
             </div>
-
-         </div>
-    `;
+         </div>`;
 
 
-
-    // document.querySelector("img").src = "images/logo.png";
     wrapper.querySelector("#box").style.backgroundImage = "url(/images/paper.png)";
-    document.querySelector("button").addEventListener("click", () => {
+        document.querySelector("button").addEventListener("click", () => {
         RenderLoginPage();
     });
 
     document.querySelector("h3").addEventListener("click", () => {
         RenderRegisterPage();
     })
-
 
 }

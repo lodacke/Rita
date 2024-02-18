@@ -1,14 +1,12 @@
 
-function RenderProfile(params) {
-    console.log("profile");
+import { swapStyleSheet } from "../utilities/swapCSS.js";
+import { wrapper } from "../utilities/variables.js";
 
+export function RenderProfile() {
+     BasicLayout(); // behöver kanske inte vara här?
     swapStyleSheet("css/profile.css");
-    let wrapper = document.querySelector("#wrapper");
 
-    BasicLayout();
-
-
-    document.querySelector("#wrapper").innerHTML += `
+    wrapper.innerHTML += `
     <div id="notifications">
         <img>
         <div class="noti">
@@ -79,7 +77,6 @@ function RenderProfile(params) {
 
             createCard(card);
         }
-        console.log(event.target.id);
         toggleClass(event.target.id)
     })
 
@@ -104,7 +101,6 @@ function toggleClass(selectedId) {
         }
     }
 }
-
 
 function createCard(parent) {
     let card = document.createElement("div");
@@ -168,7 +164,6 @@ function RenderArtistCard(parent) {
 
     parent.append(divDom);
 }
-
 
 
 function RenderFollowers(popUp) {

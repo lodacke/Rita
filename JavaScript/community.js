@@ -1,6 +1,6 @@
 "use strict";
 
-function RenderCommunity() {
+export function RenderCommunity() {
 
     swapStyleSheet("css/community.css");
     let wrapper = document.querySelector("#wrapper");
@@ -42,7 +42,7 @@ function RenderCommunity() {
 
 }
 
-function RenderCalender(parent) {
+export function RenderCalender(parent) {
 
     parent.innerHTML = `
     <h2> Galagos deadline </h2>
@@ -75,8 +75,7 @@ function RenderCalender(parent) {
     }
 }
 
-
-function RenderComment(parent) {
+export function RenderComment(parent) {
     let comment = document.createElement("div");
 
     comment.innerHTML = `
